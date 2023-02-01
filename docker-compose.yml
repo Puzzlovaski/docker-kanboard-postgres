@@ -10,9 +10,15 @@ services:
       - kanboard_net
     depends_on:
       - db
+    environment:
+      DB_DRIVER: postgres
+      DB_HOSTNAME: db
+      DB_USERNAME: ${postgres_user}
+      DB_PASSWORD: ${postgres_password}
     volumes:
-     - $PWD/data:/var/www/app/data
-     - $PWD/plugins:/var/www/app/plugins
+     - ./data:/var/www/app/data
+     - ./plugins:/var/www/app/plugins
+     - ./config.php:/var/www/app/config.php
   db:
     container_name: kanboard-db
     restart: always
@@ -24,12 +30,11 @@ services:
     networks:
       - kanboard_net
     environment:
-      POSTGRES_USER: kanboard
+      POSTGRES_USER: ${postgres_user}
       POSTGRES_PASSWORD: ${postgres_password}
-      PGDATA: /var/lib/postgresql/data
+      PGDATA: /var/lib/postgresql/data/pg_data
     volumes:
-      - $PWD/db:/var/lib/postgresql/data
-      - $PWD/postgres.sql:/docker-entrypoint-initdb.d/initdb.sql
+      - ./db:/var/lib/postgresql/data
 
 networks:
   kanboard_net:
