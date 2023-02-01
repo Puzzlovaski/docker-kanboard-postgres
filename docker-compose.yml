@@ -6,15 +6,14 @@ services:
     image: kanboard/kanboard:${kanboard_version}
     ports:
      - "80:80"
-    networks:
-      - kanboard_net
     depends_on:
       - db
     environment:
-      DB_DRIVER: postgres
-      DB_HOSTNAME: db
-      DB_USERNAME: ${postgres_user}
-      DB_PASSWORD: ${postgres_password}
+      # DB_DRIVER: postgres
+      # DB_HOSTNAME: db
+      # DB_USERNAME: ${postgres_user}
+      # DB_PASSWORD: ${postgres_password}
+      DATABASE_URL: postgres://${postgres_user}:${postgres_password}@db/kanboard
     volumes:
      - ./data:/var/www/app/data
      - ./plugins:/var/www/app/plugins
@@ -23,19 +22,9 @@ services:
     container_name: kanboard-db
     restart: always
     image: postgres:${postgres_version}
-    expose:
-      - "5432"
-    ports:
-      - "5432:5432"
-    networks:
-      - kanboard_net
     environment:
       POSTGRES_USER: ${postgres_user}
       POSTGRES_PASSWORD: ${postgres_password}
       PGDATA: /var/lib/postgresql/data/pg_data
     volumes:
       - ./db:/var/lib/postgresql/data
-
-networks:
-  kanboard_net:
-    driver: bridge

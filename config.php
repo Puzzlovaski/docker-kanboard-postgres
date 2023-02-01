@@ -79,10 +79,10 @@ define('DB_RUN_MIGRATIONS', true);
 // define('DB_HOSTNAME', 'db');         // set it in .env
 
 // Database database name
-define('DB_NAME', 'kanboard');
+// define('DB_NAME', 'kanboard');       // set it in .env
 
 // Database custom port (null = default port)
-define('DB_PORT', null);
+// define('DB_PORT', null);             // set it in .env
 
 // Mysql SSL key
 define('DB_SSL_KEY', null);
